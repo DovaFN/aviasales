@@ -1,0 +1,8 @@
+export const SET_FILTER = 'SET_FILTER'
+export const TOGGLE_CHECKBOX = 'TOGGLE_CHECKBOX'
+export const SET_FILTER_ALL = 'SET_FILTER_ALL'
+export const GET_SEARCH_ID = 'GET_SEARCH_ID'
+export const GET_TICKETS = 'GET_TICKETS'
+export const SET_SORTING = 'SET_SORTING'
+export const LOADER_ON = 'LOADER_ON'
+export const LOADER_OFF = 'LOADER_OFF'

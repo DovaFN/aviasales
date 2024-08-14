@@ -1,0 +1,44 @@
+@import url(../../fonts/fonts.scss);    
+
+
+
+
+li{
+    list-style-type: none;
+    text-indent: 0;
+}
+
+ul{
+    margin: 0;
+    padding: 0;
+}
+
+.filters{
+    margin-top: 15px;
+}
+
+.header{
+    text-align: left;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0.5px;
+    margin-left: 20px;
+    font-weight: 550;
+
+}
+
+.container{
+    width: 232px;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    padding: 20px 0;
+    padding-bottom: 0;
+    height: 252px;
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+
+

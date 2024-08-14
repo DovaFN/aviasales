@@ -1,0 +1,40 @@
+@import url(../../fonts/fonts.scss);
+
+.container{
+    display: flex;
+    width: 504px;
+    height: 50px;
+}
+
+.button{
+    font-weight: 550;
+    background-color: white;
+    border: 1px solid #DFE5EC;
+    width: 168px;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    padding: 14px;
+}
+
+.button:hover{
+    cursor: pointer;
+    background-color: #2196F3;
+    color: white;
+}
+
+.button:first-child{
+
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.button:last-child{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.active{
+    background-color: #2196F3;
+    color: white;
+}

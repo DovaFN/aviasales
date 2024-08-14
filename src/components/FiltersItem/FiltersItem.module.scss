@@ -1,0 +1,65 @@
+@import url(../../fonts/fonts.scss);
+
+
+.item{
+    display: block;
+    height: 40px;
+    padding: 10px 0 ;
+}
+
+.item:hover{
+    background-color: #F1FCFF;
+    cursor: pointer;
+}
+
+
+.filter{
+    position: absolute;
+    left: -30px;
+    top: -1.5px;
+    width: 19px;
+    height: 19px;
+    border: 1px solid #9ABBCE;
+    border-radius: 2px;
+}
+
+.filter:hover{
+    cursor: pointer;
+}
+
+.filter-checked{
+    position: absolute;
+    left: -30px;
+    top: -1.5px;
+    width: 19px;
+    height: 19px;
+    background:no-repeat url(../../icons/Shape.svg) center;
+    border: 1px solid #2196F3;
+    border-radius: 2px;
+}
+
+.description{
+    font-size: 13px;
+    line-height: 20px;
+    color: #4A4A4A;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    position: relative;
+    vertical-align: top;
+    margin-left: 50px;
+}
+
+.description:hover{
+    cursor: pointer;
+}
+
+// .description::before{
+//     position: absolute;
+//     content: ' ';
+//     opacity: 1;
+//     width: 19px;
+//     height: 19px;
+//     border: 1px solid #9ABBCE;
+//     border-radius: 2px;
+// }
+
