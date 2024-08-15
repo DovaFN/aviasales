@@ -7,9 +7,12 @@ import {
   SET_FILTER_ALL,
   LOADER_ON,
   LOADER_OFF,
+  SET_ERROR,
 } from './types'
 
 const _APIBASE = 'https://aviasales-test-api.kata.academy'
+
+let counter = 0
 
 export function setFilter(value) {
   if (value === 'all') {
@@ -20,26 +23,6 @@ export function setFilter(value) {
   return { type: SET_FILTER }
 }
 
-export function toggleCheckbox(id) {
-  return { type: TOGGLE_CHECKBOX, id }
-}
-
-export function getSearchId() {
-  return async (dispatch) => {
-    try {
-      const response = await fetch(`${_APIBASE}/search`)
-      const jsonData = await response.json()
-      dispatch({ type: GET_SEARCH_ID, data: jsonData })
-    } catch (err) {
-      dispatch(getSearchId())
-    }
-  }
-}
-
-export function setSorting(value) {
-  return { type: SET_SORTING, value }
-}
-
 export function loaderOn() {
   return { type: LOADER_ON }
 }
@@ -48,26 +31,42 @@ export function loaderOff() {
   return { type: LOADER_OFF }
 }
 
-let moreTickets = []
+export function setError(err) {
+  return { type: SET_ERROR, err }
+}
 
-function getMoreTickets(searchId) {
+export function toggleCheckbox(id) {
+  return { type: TOGGLE_CHECKBOX, id }
+}
+
+export function getSearchId() {
   return async (dispatch) => {
     try {
-      const response = await fetch(`${_APIBASE}/tickets?searchId=${searchId}`)
-      const jsonData = await response.json()
-      if (!jsonData.stop) {
-        moreTickets = [...moreTickets, ...jsonData.tickets]
-        dispatch(getMoreTickets(searchId))
+      dispatch(loaderOn())
+      const response = await fetch(`${_APIBASE}/search`)
+      if (response.ok) {
+        counter = 0
+        const jsonData = await response.json()
+        dispatch({ type: GET_SEARCH_ID, data: jsonData })
       }
-      if (jsonData.stop) {
-        moreTickets = [...moreTickets, ...jsonData.tickets]
-        dispatch({ type: GET_TICKETS, data: { tickets: moreTickets } })
-        dispatch(loaderOff())
+      if (!response.ok) {
+        throw new Error(`We have Error, Response Status >> ${response.status}`)
       }
     } catch (err) {
-      dispatch(getMoreTickets(searchId))
+      counter += 1
+      if (counter === 3) {
+        dispatch(loaderOff())
+        dispatch(setError(err))
+      }
+      if (counter < 3) {
+        dispatch(getSearchId())
+      }
     }
   }
+}
+
+export function setSorting(value) {
+  return { type: SET_SORTING, value }
 }
 
 export function getTickets(searchId) {
@@ -75,14 +74,29 @@ export function getTickets(searchId) {
     try {
       dispatch(loaderOn())
       const response = await fetch(`${_APIBASE}/tickets?searchId=${searchId}`)
-      const jsonData = await response.json()
-      dispatch({ type: GET_TICKETS, data: { tickets: jsonData.tickets } })
-
-      if (!jsonData.stop) {
-        dispatch(getMoreTickets(searchId))
+      if (response.ok) {
+        counter = 0
+        const jsonData = await response.json()
+        dispatch({ type: GET_TICKETS, data: { tickets: jsonData.tickets } })
+        if (jsonData.stop) {
+          dispatch(loaderOff())
+        }
+        if (!jsonData.stop) {
+          dispatch(getTickets(searchId))
+        }
+      }
+      if (!response.ok) {
+        throw new Error(`We have Error, Response Status >> ${response.status}`)
       }
     } catch (err) {
-      dispatch(getTickets(searchId))
+      counter += 1
+      if (counter === 3) {
+        dispatch(loaderOff)
+        dispatch(setError(err))
+      }
+      if (counter < 3) {
+        dispatch(getTickets(searchId))
+      }
     }
   }
 }

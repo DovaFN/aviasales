@@ -9,9 +9,10 @@ import {
   SET_FILTER,
   LOADER_OFF,
   LOADER_ON,
+  SET_ERROR,
 } from './types'
 
-const createFilter = (text, value) => ({ id: uniqid(), description: text, checked: false, value })
+const createFilter = (text, value) => ({ id: uniqid(), description: text, checked: true, value })
 
 const arr = [
   createFilter('Все', 'all'),
@@ -28,6 +29,7 @@ const initialState = {
   searchId: '',
   sorting: 'fast',
   loading: true,
+  error: { hasError: false, message: '' },
 }
 
 const reducer = (state, action) => {
@@ -60,6 +62,10 @@ const reducer = (state, action) => {
       return { ...state, loading: false }
     }
 
+    case SET_ERROR: {
+      return { ...state, error: { hasError: true, message: action.err.message } }
+    }
+
     case SET_SORTING: {
       return { ...state, sorting: action.value }
     }
@@ -79,7 +85,7 @@ const reducer = (state, action) => {
         if (el.value === 'all') {
           return { ...el, checked: !!el.checked }
         }
-        return { ...el, checked: false }
+        return { ...el, checked: filtersMap.all }
       })
       return { ...state, checkboxes: newCheckBoxes, filters: filtersMap }
     }
@@ -98,7 +104,7 @@ const reducer = (state, action) => {
           return { ...el, checked: true }
         }
         if (el.value !== 'all' && everyCh) {
-          return { ...el, checked: false }
+          return { ...el, checked: true }
         }
         if (el.value === 'all') {
           return { ...el, checked: false }
